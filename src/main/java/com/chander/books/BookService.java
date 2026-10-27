@@ -1,5 +1,6 @@
 package com.chander.books;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -14,6 +15,7 @@ public class BookService {
     private final Map<Long, Book> books = new ConcurrentHashMap<>();
     private final AtomicLong ids = new AtomicLong();
 
+    @PreAuthorize("hasRole('ADMIN')")
     public Book create (BookRequest r) {
         long id = ids.incrementAndGet();
         Book book = new Book(id, r.title(), r.author(), r.year());
